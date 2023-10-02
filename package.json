@@ -1,0 +1,16 @@
+{
+  "name": "three-js-learning",
+  "private": true,
+  "version": "0.0.1",
+
+  "script": {
+    "dev": "npx vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "three": "^0.157.0"
+  },
+  "devDependencies": {
+    "vite": "^4.4.9"
+  }
+}
