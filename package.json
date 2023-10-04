@@ -2,12 +2,12 @@
   "name": "three-js-learning",
   "private": true,
   "version": "0.0.1",
-
   "script": {
     "dev": "npx vite",
     "build": "vite build"
   },
   "dependencies": {
+    "gsap": "^3.cc.2",
     "three": "^0.157.0"
   },
   "devDependencies": {
