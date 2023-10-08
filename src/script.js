@@ -1,6 +1,51 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 // import gsap from "gsap";
+import * as dat from "dat.gui";
+
+// SECTION: Textures
+const manager = new THREE.LoadingManager();
+manager.onStart = () => {
+  console.log("Start complete!");
+};
+manager.onLoad = () => {
+  console.log("Loading complete!");
+};
+manager.onProgress = () => {
+  console.log("Progress complete!");
+};
+manager.onError = () => {
+  console.log("Error !");
+};
+
+const textureLoader = new THREE.TextureLoader(manager);
+const Galaxytexture = textureLoader.load("./galaxy.jpg");
+
+Galaxytexture.repeat.x = 1;
+Galaxytexture.repeat.y = 1;
+Galaxytexture.wrapS = THREE.RepeatWrapping;
+Galaxytexture.wrapT = THREE.RepeatWrapping;
+
+
+
+Galaxytexture.rotation = Math.PI / 4;
+Galaxytexture.center.x = 0.5;
+Galaxytexture.center.y = 0.5;
+
+Galaxytexture.minFilter = THREE.NearestFilter;
+Galaxytexture.magFilter = THREE.NearestFilter;
+
+
+// const image = new Image()
+// const texture = new THREE.Texture(image);
+
+// image.onload = () => {
+//    texture.needsUpdate = true;
+// }
+// image.src='./galaxy.jpg'
+
+// SECTION: Debug
+const gui = new dat.GUI();
 
 // SECTION: cursor
 const cursor = {
@@ -20,10 +65,33 @@ const canvas = document.querySelector("canvas.webgl");
 const scene = new THREE.Scene();
 
 // SECTION: Object
-const geometry = new THREE.BoxGeometry(1, 1, 1);
-const material = new THREE.MeshBasicMaterial({ color: 0xaaff08 });
+// const geometry = new THREE.BoxGeometry(1, 1, 1, 4, 4, 4);
+const geometry = new THREE.SphereGeometry( 1, 32, 16 ); 
+// const count = 50000;
+// const positionArray = new Float32Array(count * 3 * 3);
+
+// for (let i = 0; i < count * 3 * 3; i++) {
+//   positionArray[i] = (Math.random() - 0.5) * 2;
+// }
+
+// const positionsAttribute = new THREE.BufferAttribute(positionArray, 3);
+// const geometry1 = new THREE.BufferGeometry();
+// geometry1.setAttribute("position", positionsAttribute);
+
+const material = new THREE.MeshBasicMaterial({
+  map: Galaxytexture,
+  // color: 0xffff00
+});
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
+
+// Debug
+gui.add(mesh.position, "y").min(-3).max(3).step(0.01).name("elevation");
+gui.add(mesh.position, "x", -3, 3, 0.01).name("translateX");
+gui.add(mesh.position, "z", -3, 3, 0.01).name("ZoomIn-Out");
+
+gui.add(mesh, "visible");
+gui.add(material, "wireframe");
 
 // SECTION: Sizes
 const sizes = {
@@ -95,8 +163,8 @@ const tick = () => {
   // console.log(elapsedTime)
 
   // Update object
-  // mesh.rotation.z = (Math.PI / 4) * elapsedTime;
-  // mesh.rotation.x = (Math.PI / 4) * elapsedTime;
+  mesh.rotation.z = (Math.PI / 4) * elapsedTime;
+  mesh.rotation.x = (Math.PI / 4) * elapsedTime;
 
   // mesh.position.y = Math.sin(elapsedTime);
   // mesh.position.x = Math.cos(elapsedTime);

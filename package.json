@@ -7,7 +7,7 @@
     "build": "vite build"
   },
   "dependencies": {
-    "gsap": "^3.cc.2",
+    "dat.gui": "^0.7.9",
     "three": "^0.157.0"
   },
   "devDependencies": {
